@@ -32,9 +32,6 @@ By analyzing longitudinal NoSQL data, the system identifies habit loops—linkin
 
 3. Smart Swaps (Meals Tab)
 Every meal is assigned a health score (0–100). The system suggests swaps based on what you actually eat, rather than generic, "ideal-world" substitutes.
-
-📂 Project Structure
-Plaintext
 ├── public/                 # Assets and floating UI elements
 ├── src/
 │   ├── components/         # Glassmorphism & Anti-Gravity Cards
@@ -42,5 +39,5 @@ Plaintext
 │   └── styles/             # Global CSS Variables & Animations
 ├── firebase.rules          # NoSQL Security Protocols
 └── README.md               # Project Documentation
-🔒 Security & Privacy
+
 NutriSense follows a "Privacy-First" approach. All health data is encrypted at rest within the NoSQL database and is only accessible via verified user sessions.
