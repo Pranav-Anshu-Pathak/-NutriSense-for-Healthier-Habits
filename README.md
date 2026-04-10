@@ -1,5 +1,3 @@
-This README is designed to present your project as a high-end, professional digital solution. It emphasizes the Cloud Run deployment, the NoSQL efficiency, and the Anti-Gravity aesthetic to ensure it stands out in any submission.
-
 🌌 NutriSense — The Anti-Gravity Health Hub
 NutriSense is a next-generation, data-driven wellness platform designed to bridge the gap between nutritional data and actionable habits. Built with a professional "Digital Hub" philosophy, it transforms the traditional tracking experience into a frictionless, "Anti-Gravity" environment where your health strategy is always in orbit.
 
