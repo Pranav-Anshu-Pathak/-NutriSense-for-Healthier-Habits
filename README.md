@@ -31,13 +31,16 @@ The hub reads the time of day and your current nutritional gaps to deliver proac
 By analyzing longitudinal NoSQL data, the system identifies habit loops—linking meal timing to energy levels and identifying consistent nutritional shortfalls.
 
 3. Smart Swaps (Meals Tab)
-Every meal is assigned a health score (0–100). The system suggests swaps based on what you actually eat, rather than generic, "ideal-world" substitutes.
-├── public/                 # Assets and floating UI elements
+nutrisense-hub/
+├── public/                 # Optimized assets & floating UI elements
 ├── src/
-│   ├── components/         # Glassmorphism & Anti-Gravity Cards
-│   ├── services/           # NoSQL (Firebase/Firestore) Logic
-│   └── styles/             # Global CSS Variables & Animations
-├── firebase.rules          # NoSQL Security Protocols
-└── README.md               # Project Documentation
+│   ├── components/         # Glassmorphism & Anti-Gravity UI components
+│   ├── services/           # NoSQL (Firebase/Firestore) integration logic
+│   ├── utils/              # Health score algorithms & data parsers
+│   └── styles/             # Global CSS variables & keyframe animations
+├── firebase.rules          # NoSQL security protocols & RLS
+├── Dockerfile              # Container configuration for Cloud Run
+├── package.json            # Project dependencies & scripts
+└── README.md               # Professional project documentation
 
 NutriSense follows a "Privacy-First" approach. All health data is encrypted at rest within the NoSQL database and is only accessible via verified user sessions.
