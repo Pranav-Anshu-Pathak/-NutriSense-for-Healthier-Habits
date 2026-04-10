@@ -1,4 +1,4 @@
-🌌 NutriSense — The Anti-Gravity Health Hub
+🌌 NutriSense — An AI Health Hub
 NutriSense is a next-generation, data-driven wellness platform designed to bridge the gap between nutritional data and actionable habits. Built with a professional "Digital Hub" philosophy, it transforms the traditional tracking experience into a frictionless, "Anti-Gravity" environment where your health strategy is always in orbit.
 
 Deploved via Google Cloud Run for 100% scalability and low-latency performance.
