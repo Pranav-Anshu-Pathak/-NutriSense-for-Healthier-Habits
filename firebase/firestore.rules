@@ -1,0 +1,69 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Helper Functions ────────────────────────────────────────────────────
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(ownerUID) {
+      return request.auth.uid == ownerUID;
+    }
+
+    function isValidMacroData(data) {
+      return data.keys().hasAll(['protein', 'carbs', 'fats', 'fiber', 'calories'])
+        && data.protein is number
+        && data.carbs   is number
+        && data.fats    is number
+        && data.fiber   is number
+        && data.calories is number;
+    }
+
+    // ── users/{uid} ─────────────────────────────────────────────────────────
+    // Each user can only read/write their OWN document.
+    match /users/{uid} {
+      allow read:  if isAuthenticated() && isOwner(uid);
+      allow create: if isAuthenticated()
+                    && isOwner(uid)
+                    && request.resource.data.keys().hasAll([
+                         'uid', 'phone', 'displayName',
+                         'currentEfficiencyScore', 'streakCount',
+                         'dietaryGoals', 'metabolicZone', 'createdAt'
+                       ]);
+      allow update: if isAuthenticated()
+                    && isOwner(uid)
+                    // Prevent uid/phone tampering
+                    && request.resource.data.uid == resource.data.uid
+                    && request.resource.data.phone == resource.data.phone;
+      allow delete: if false; // soft-delete only
+    }
+
+    // ── mealOrders/{orderId} ────────────────────────────────────────────────
+    // Users can only access their own meal orders (ownerUID field).
+    match /mealOrders/{orderId} {
+      allow read:   if isAuthenticated() && isOwner(resource.data.ownerUID);
+      allow create: if isAuthenticated()
+                    && isOwner(request.resource.data.ownerUID)
+                    && isValidMacroData(request.resource.data.macroData)
+                    && request.resource.data.status in ['Planning', 'Consumed', 'Digesting', 'Absorbed'];
+      allow update: if isAuthenticated()
+                    && isOwner(resource.data.ownerUID)
+                    // ownerUID is immutable after creation
+                    && request.resource.data.ownerUID == resource.data.ownerUID;
+      allow delete: if isAuthenticated() && isOwner(resource.data.ownerUID);
+    }
+
+    // ── insightReports/{reportId} ───────────────────────────────────────────
+    // Read-only for users (generated server-side by Cloud Function).
+    match /insightReports/{reportId} {
+      allow read:   if isAuthenticated() && isOwner(resource.data.ownerUID);
+      allow write:  if false; // only Cloud Functions can write
+    }
+
+    // ── Deny everything else ────────────────────────────────────────────────
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

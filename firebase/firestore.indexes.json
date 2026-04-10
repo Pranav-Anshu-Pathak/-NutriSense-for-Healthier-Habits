@@ -1,0 +1,31 @@
+indexes:
+  # ── mealOrders: filter by owner + sort by date (primary query pattern) ──
+  - collectionGroup: mealOrders
+    queryScope: COLLECTION
+    fields:
+      - fieldPath: ownerUID
+        order: ASCENDING
+      - fieldPath: consumedAt
+        order: DESCENDING
+
+  # ── mealOrders: filter by owner + status (for tracker queries) ──
+  - collectionGroup: mealOrders
+    queryScope: COLLECTION
+    fields:
+      - fieldPath: ownerUID
+        order: ASCENDING
+      - fieldPath: status
+        order: ASCENDING
+      - fieldPath: consumedAt
+        order: DESCENDING
+
+  # ── insightReports: filter by owner + date (for trend auditor) ──
+  - collectionGroup: insightReports
+    queryScope: COLLECTION
+    fields:
+      - fieldPath: ownerUID
+        order: ASCENDING
+      - fieldPath: generatedAt
+        order: DESCENDING
+
+fieldOverrides: []

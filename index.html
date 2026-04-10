@@ -1,0 +1,2903 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>NutriSense Hub — Today</title>
+  <meta name="description" content="Your smart food coach dashboard — meals, macros, and AI recommendations." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Exo+2:wght@300;400;600;700&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    :root {
+      --cyan: #00F2FF;
+      --cyan-dim: rgba(0, 242, 255, 0.14);
+      --cyan-glow: rgba(0, 242, 255, 0.55);
+      --amber: #F59E0B;
+      --amber-dim: rgba(245, 158, 11, 0.15);
+      --green: #22C55E;
+      --green-dim: rgba(34, 197, 94, 0.15);
+      --purple: #A78BFA;
+      --purple-dim: rgba(167, 139, 250, 0.14);
+      --glass-bg: rgba(255, 255, 255, 0.055);
+      --glass-bdr: rgba(255, 255, 255, 0.12);
+      --txt: #E8F4FF;
+      --txt-muted: rgba(200, 220, 255, 0.55);
+      --txt-label: rgba(0, 242, 255, 0.75);
+      --bg: #06051A;
+      --nav-h: 70px;
+    }
+
+    @keyframes nebula {
+
+      0%,
+      100% {
+        background-position: 0% 0%, 100% 100%;
+      }
+
+      50% {
+        background-position: 30% 20%, 70% 80%;
+      }
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0px) rotate(0deg);
+      }
+
+      25% {
+        transform: translateY(-6px) rotate(0.2deg);
+      }
+
+      50% {
+        transform: translateY(-11px) rotate(-0.2deg);
+      }
+
+      75% {
+        transform: translateY(-4px) rotate(0.1deg);
+      }
+    }
+
+    @keyframes twinkle {
+
+      0%,
+      100% {
+        opacity: 0.2;
+      }
+
+      50% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes scan {
+      0% {
+        background-position: -200% center;
+      }
+
+      100% {
+        background-position: 200% center;
+      }
+    }
+
+    @keyframes pulse-dot {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(0, 242, 255, 0.7);
+      }
+
+      50% {
+        box-shadow: 0 0 0 6px rgba(0, 242, 255, 0);
+      }
+    }
+
+    @keyframes progress-fill {
+      from {
+        width: 0;
+      }
+    }
+
+    @keyframes chip-glow {
+
+      0%,
+      100% {
+        box-shadow: 0 0 8px rgba(0, 242, 255, 0.3);
+      }
+
+      50% {
+        box-shadow: 0 0 20px rgba(0, 242, 255, 0.6);
+      }
+    }
+
+    @keyframes slide-in {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes modal-in {
+      from {
+        opacity: 0;
+        transform: translateY(100%);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes typing {
+
+      0%,
+      60%,
+      100% {
+        opacity: 0.3;
+        transform: scale(0.8);
+      }
+
+      30% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Exo 2', system-ui, sans-serif;
+      color: var(--txt);
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 15% 20%, rgba(63, 0, 180, 0.25) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 75%, rgba(0, 60, 160, 0.20) 0%, transparent 50%),
+        linear-gradient(170deg, #090720 0%, #0B0925 40%, #06051A 100%);
+      background-size: 200% 200%, 200% 200%, 100% 100%;
+      animation: nebula 30s ease-in-out infinite;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background-image:
+        radial-gradient(1px 1px at 8% 12%, rgba(255, 255, 255, .9) 0%, transparent 100%),
+        radial-gradient(1px 1px at 22% 38%, rgba(255, 255, 255, .8) 0%, transparent 100%),
+        radial-gradient(1px 1px at 41% 6%, rgba(255, 255, 255, .6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 69% 27%, rgba(255, 255, 255, .9) 0%, transparent 100%),
+        radial-gradient(1px 1px at 93% 15%, rgba(255, 255, 255, .5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 15% 65%, rgba(255, 255, 255, .7) 0%, transparent 100%),
+        radial-gradient(1px 1px at 35% 82%, rgba(255, 255, 255, .9) 0%, transparent 100%),
+        radial-gradient(1px 1px at 78% 91%, rgba(255, 255, 255, .9) 0%, transparent 100%),
+        radial-gradient(2px 2px at 10% 50%, rgba(0, 242, 255, .5) 0%, transparent 100%),
+        radial-gradient(2px 2px at 72% 68%, rgba(180, 160, 255, .5) 0%, transparent 100%),
+        radial-gradient(2px 2px at 50% 30%, rgba(0, 242, 255, .4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 60% 80%, rgba(255, 255, 255, .6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 88% 45%, rgba(255, 255, 255, .7) 0%, transparent 100%);
+      animation: twinkle 5s ease-in-out infinite alternate;
+    }
+
+    /* ── App Shell ── */
+    .app-shell {
+      position: relative;
+      z-index: 1;
+      max-width: 480px;
+      margin: 0 auto;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ── Sticky Header ── */
+    .top-header {
+      flex-shrink: 0;
+      background: rgba(9, 7, 32, 0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--glass-bdr);
+      padding: 0.85rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      z-index: 50;
+    }
+
+    .location-block {
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .location-eyebrow {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 8px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--txt-label);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .live-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--cyan);
+      border-radius: 50%;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    .location-zone {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--txt);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 2px;
+    }
+
+    .location-zone svg {
+      color: var(--cyan);
+    }
+
+    .chevron {
+      color: var(--txt-muted);
+      font-size: 10px;
+    }
+
+    .header-right {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .notif-btn {
+      position: relative;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+
+    .notif-dot {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      width: 8px;
+      height: 8px;
+      background: var(--amber);
+      border-radius: 50%;
+      border: 1.5px solid var(--bg);
+    }
+
+    .profile-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 11px;
+      background: var(--cyan-dim);
+      border: 1.5px solid rgba(0, 242, 255, 0.3);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--cyan);
+      transition: box-shadow 0.3s;
+      flex-shrink: 0;
+    }
+
+    .profile-btn:hover {
+      box-shadow: 0 0 16px rgba(0, 242, 255, 0.35);
+    }
+
+    /* ── TAB PAGES ── */
+    .tab-pages {
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .tab-page {
+      position: absolute;
+      inset: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(0, 242, 255, 0.2) transparent;
+      padding-bottom: 1rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .tab-page::-webkit-scrollbar {
+      width: 3px;
+    }
+
+    .tab-page::-webkit-scrollbar-thumb {
+      background: rgba(0, 242, 255, 0.2);
+      border-radius: 3px;
+    }
+
+    .tab-page.active {
+      opacity: 1;
+      pointer-events: all;
+      animation: slide-in 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    /* ── Bottom Nav ── */
+    .bottom-nav {
+      flex-shrink: 0;
+      height: var(--nav-h);
+      background: rgba(8, 6, 28, 0.9);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-top: 1px solid var(--glass-bdr);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 0 0.5rem;
+      z-index: 50;
+    }
+
+    .nav-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      padding: 8px 4px;
+      cursor: pointer;
+      border-radius: 14px;
+      transition: background 0.2s;
+      position: relative;
+    }
+
+    .nav-item:hover {
+      background: rgba(0, 242, 255, 0.06);
+    }
+
+    .nav-item.active .nav-icon {
+      color: var(--cyan);
+      filter: drop-shadow(0 0 6px var(--cyan-glow));
+    }
+
+    .nav-item.active .nav-label {
+      color: var(--cyan);
+    }
+
+    .nav-item.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 20px;
+      height: 2px;
+      border-radius: 2px;
+      background: var(--cyan);
+      box-shadow: 0 0 8px var(--cyan-glow);
+    }
+
+    .nav-icon {
+      transition: color 0.2s, filter 0.2s;
+      color: var(--txt-muted);
+    }
+
+    .nav-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 7.5px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--txt-muted);
+      transition: color 0.2s;
+    }
+
+    .nav-badge {
+      position: absolute;
+      top: 5px;
+      right: 14px;
+      width: 8px;
+      height: 8px;
+      background: var(--amber);
+      border-radius: 50%;
+      border: 1.5px solid var(--bg);
+    }
+
+    /* ── Glass Card ── */
+    .glass-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-bdr);
+      border-radius: 22px;
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.35s, border-color 0.3s;
+    }
+
+    .glass-card:hover {
+      border-color: rgba(0, 242, 255, 0.4);
+      box-shadow: 0 0 28px rgba(0, 242, 255, 0.15), 0 20px 40px rgba(0, 0, 0, 0.4);
+      transform: translateY(-5px) scale(1.015);
+    }
+
+    /* ── Search Bar ── */
+    .search-wrap {
+      padding: 1rem 1.25rem 0.5rem;
+    }
+
+    .search-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-bdr);
+      border-radius: 16px;
+      padding: 0 1rem;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .search-bar:focus-within {
+      border-color: rgba(0, 242, 255, 0.5);
+      box-shadow: 0 0 24px rgba(0, 242, 255, 0.12);
+    }
+
+    .search-icon {
+      color: var(--txt-muted);
+      flex-shrink: 0;
+    }
+
+    .search-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--txt);
+      padding: 0.85rem 0;
+      letter-spacing: 0.03em;
+    }
+
+    .search-input::placeholder {
+      color: rgba(200, 220, 255, 0.3);
+    }
+
+    .voice-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: var(--cyan-dim);
+      border: 1px solid rgba(0, 242, 255, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: box-shadow 0.3s, background 0.3s;
+    }
+
+    .voice-btn:hover {
+      background: rgba(0, 242, 255, 0.22);
+      box-shadow: 0 0 14px rgba(0, 242, 255, 0.3);
+    }
+
+    .voice-btn svg {
+      color: var(--cyan);
+    }
+
+    /* ── Filter Chips ── */
+    .chips-wrap {
+      padding: 0.5rem 1.25rem 0.75rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .chips-wrap::-webkit-scrollbar {
+      display: none;
+    }
+
+    .chips-row {
+      display: flex;
+      gap: 8px;
+      width: max-content;
+    }
+
+    .chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 30px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      white-space: nowrap;
+      border: 1px solid var(--glass-bdr);
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      color: var(--txt-muted);
+      transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+      user-select: none;
+    }
+
+    .chip:hover {
+      border-color: rgba(0, 242, 255, 0.4);
+      color: var(--cyan);
+    }
+
+    .chip.active {
+      background: var(--cyan-dim);
+      border-color: rgba(0, 242, 255, 0.5);
+      color: var(--cyan);
+      animation: chip-glow 2.5s ease-in-out infinite;
+    }
+
+    .chip-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+      flex-shrink: 0;
+    }
+
+    /* ── Section Header ── */
+    .section-hdr {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.25rem 0.75rem;
+    }
+
+    .section-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--txt-label);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title::after {
+      content: '';
+      display: inline-block;
+      width: 40px;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(0, 242, 255, 0.7) 0%, rgba(0, 242, 255, 0) 100%);
+      animation: scan 3s linear infinite;
+    }
+
+    .see-all {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 8px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: var(--cyan);
+      cursor: pointer;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+      padding: 6px 10px;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+
+    .see-all:hover {
+      opacity: 1;
+      background: var(--cyan-dim);
+    }
+
+    /* ── Order Tracker ── */
+    .tracker-card {
+      margin: 0 1.25rem 0;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-bdr);
+      border-radius: 22px;
+      padding: 1.25rem;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .tracker-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--txt-label);
+      margin-bottom: 0.85rem;
+    }
+
+    .tracker-stages {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4px;
+      margin-bottom: 1rem;
+    }
+
+    .t-stage {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 7.5px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--txt-muted);
+      transition: color 0.3s;
+    }
+
+    .t-stage.done {
+      color: var(--green);
+    }
+
+    .t-stage.active {
+      color: var(--cyan);
+    }
+
+    .t-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-bdr);
+      transition: all 0.4s;
+    }
+
+    .t-stage.done .t-icon {
+      background: var(--green-dim);
+      border-color: rgba(34, 197, 94, 0.4);
+    }
+
+    .t-stage.active .t-icon {
+      background: var(--cyan-dim);
+      border-color: rgba(0, 242, 255, 0.45);
+      box-shadow: 0 0 14px rgba(0, 242, 255, 0.3);
+    }
+
+    .t-connector {
+      flex: 0 0 20px;
+      height: 2px;
+      border-radius: 2px;
+      background: var(--glass-bdr);
+      margin-top: -18px;
+      transition: background 0.4s;
+    }
+
+    .t-connector.done {
+      background: var(--green);
+    }
+
+    .tracker-progress {
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 30px;
+      height: 6px;
+      overflow: hidden;
+      margin-bottom: 0.75rem;
+    }
+
+    .tracker-bar {
+      height: 100%;
+      border-radius: 30px;
+      background: linear-gradient(90deg, var(--cyan), rgba(0, 242, 255, 0.5));
+      box-shadow: 0 0 10px rgba(0, 242, 255, 0.4);
+      transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .tracker-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .tracker-countdown {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--cyan);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tracker-countdown span {
+      color: var(--txt-muted);
+      font-weight: 400;
+      font-size: 9px;
+      letter-spacing: 0.08em;
+    }
+
+    .tracker-status {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--txt-muted);
+    }
+
+    /* ── Vitals Strip ── */
+    .vitals-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin: 0 1.25rem;
+      animation: float 7s ease-in-out infinite;
+      animation-delay: -2s;
+    }
+
+    .vital-mini {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-bdr);
+      border-radius: 16px;
+      padding: 0.85rem 0.65rem;
+      text-align: center;
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.35s;
+      cursor: pointer;
+    }
+
+    .vital-mini:hover {
+      border-color: rgba(0, 242, 255, 0.4);
+      box-shadow: 0 0 18px rgba(0, 242, 255, 0.15);
+      transform: translateY(-4px);
+    }
+
+    .vital-mini-val {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 15px;
+      font-weight: 900;
+      color: var(--cyan);
+      text-shadow: 0 0 14px var(--cyan-glow);
+      display: block;
+    }
+
+    .vital-mini-lbl {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 7px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--txt-muted);
+      display: block;
+      margin-top: 4px;
+    }
+
+    .vital-mini-bar {
+      height: 3px;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.07);
+      margin-top: 6px;
+      overflow: hidden;
+    }
+
+    .vital-mini-fill {
+      height: 100%;
+      border-radius: 3px;
+    }
+
+    /* ── Carousel ── */
+    .carousel-wrap {
+      overflow-x: auto;
+      padding: 0 1.25rem 0.5rem;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .carousel-wrap::-webkit-scrollbar {
+      display: none;
+    }
+
+    .carousel-row {
+      display: flex;
+      gap: 12px;
+      width: max-content;
+    }
+
+    .fuel-card {
+      width: 140px;
+      flex-shrink: 0;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-bdr);
+      border-radius: 20px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s, border-color 0.3s;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .fuel-card:nth-child(2) {
+      animation-duration: 8s;
+      animation-delay: -1s;
+    }
+
+    .fuel-card:nth-child(3) {
+      animation-duration: 7s;
+      animation-delay: -3s;
+    }
+
+    .fuel-card:nth-child(4) {
+      animation-duration: 9s;
+      animation-delay: -2s;
+    }
+
+    .fuel-card:nth-child(5) {
+      animation-duration: 6.5s;
+      animation-delay: -4s;
+    }
+
+    .fuel-card:hover {
+      border-color: rgba(0, 242, 255, 0.45);
+      box-shadow: 0 0 28px rgba(0, 242, 255, 0.18), 0 20px 40px rgba(0, 0, 0, 0.4);
+      transform: translateY(-8px) scale(1.03);
+    }
+
+    .fuel-thumb {
+      width: 100%;
+      height: 90px;
+      background: linear-gradient(135deg, rgba(0, 242, 255, 0.08), rgba(167, 139, 250, 0.08));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      border-bottom: 1px solid var(--glass-bdr);
+    }
+
+    .fuel-body {
+      padding: 0.7rem 0.75rem;
+    }
+
+    .fuel-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--txt);
+      letter-spacing: 0.02em;
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .fuel-sub {
+      font-size: 10px;
+      color: var(--txt-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .fuel-tag {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 7px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 20px;
+      display: inline-block;
+    }
+
+    /* ── Meal Cards ── */
+    .meals-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding: 0 1.25rem;
+    }
+
+    .meal-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-bdr);
+      border-radius: 22px;
+      overflow: hidden;
+      display: flex;
+      cursor: pointer;
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s, border-color 0.3s;
+      animation: float 9s ease-in-out infinite;
+      animation-delay: var(--delay, 0s);
+    }
+
+    .meal-card:hover {
+      border-color: rgba(0, 242, 255, 0.45);
+      box-shadow: 0 0 30px rgba(0, 242, 255, 0.16), 0 20px 50px rgba(0, 0, 0, 0.4);
+      transform: translateY(-6px) scale(1.015);
+    }
+
+    .meal-card.hidden {
+      display: none;
+    }
+
+    .meal-thumb {
+      width: 110px;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, rgba(0, 242, 255, 0.08), rgba(167, 139, 250, 0.08));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 42px;
+      border-right: 1px solid var(--glass-bdr);
+    }
+
+    .meal-info {
+      flex: 1;
+      padding: 1rem 1rem 0.85rem;
+    }
+
+    .meal-tags {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+      margin-bottom: 0.5rem;
+    }
+
+    .meal-tag {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 7px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 20px;
+    }
+
+    .tag-veg {
+      background: var(--green-dim);
+      color: var(--green);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+
+    .tag-fiber {
+      background: var(--cyan-dim);
+      color: var(--cyan);
+      border: 1px solid rgba(0, 242, 255, 0.3);
+    }
+
+    .tag-pre {
+      background: var(--amber-dim);
+      color: var(--amber);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    .tag-quick {
+      background: rgba(167, 139, 250, 0.12);
+      color: var(--purple);
+      border: 1px solid rgba(167, 139, 250, 0.3);
+    }
+
+    .meal-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--txt);
+      letter-spacing: 0.02em;
+      margin-bottom: 3px;
+    }
+
+    .meal-desc {
+      font-size: 11px;
+      color: var(--txt-muted);
+      font-weight: 300;
+      line-height: 1.5;
+      margin-bottom: 0.75rem;
+    }
+
+    .meal-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .score-ring {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .score-svg {
+      transform: rotate(-90deg);
+    }
+
+    .score-track {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.07);
+      stroke-width: 3;
+    }
+
+    .score-arc {
+      fill: none;
+      stroke-width: 3;
+      stroke-linecap: round;
+    }
+
+    .score-val {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .score-lbl {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 7px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--txt-muted);
+    }
+
+    .log-btn {
+      padding: 8px 16px;
+      border-radius: 12px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.3s;
+      background: linear-gradient(135deg, #00D4E8, #0099CC);
+      color: #06051A;
+      box-shadow: 0 4px 14px rgba(0, 212, 232, 0.3);
+    }
+
+    .log-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(0, 212, 232, 0.5);
+    }
+
+    .log-btn:active {
+      transform: scale(0.97);
+    }
+
+    .log-btn.logged {
+      background: var(--green-dim);
+      color: var(--green);
+      border: 1px solid rgba(34, 197, 94, 0.4);
+      box-shadow: none;
+    }
+
+    /* ══════════════════════════════════════════════
+       EXPLORE TAB
+    ══════════════════════════════════════════════ */
+    .explore-categories {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      padding: 0 1.25rem;
+    }
+
+    .cat-card {
+      border-radius: 20px;
+      padding: 1.25rem;
+      cursor: pointer;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-bdr);
+      transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+      animation: float 7s ease-in-out infinite;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .cat-card:nth-child(2) {
+      animation-delay: -2s;
+    }
+
+    .cat-card:nth-child(3) {
+      animation-delay: -4s;
+    }
+
+    .cat-card:nth-child(4) {
+      animation-delay: -1s;
+    }
+
+    .cat-card:nth-child(5) {
+      animation-delay: -3s;
+    }
+
+    .cat-card:nth-child(6) {
+      animation-delay: -5s;
+    }
+
+    .cat-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      border-color: rgba(0, 242, 255, 0.4);
+      box-shadow: 0 0 24px rgba(0, 242, 255, 0.14), 0 16px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .cat-emoji {
+      font-size: 32px;
+    }
+
+    .cat-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--txt);
+    }
+
+    .cat-count {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 8px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: var(--txt-muted);
+    }
+
+    .cat-tag {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 7px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 12px;
+      display: inline-block;
+      width: fit-content;
+    }
+
+    .recipe-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 0 1.25rem;
+    }
+
+    .recipe-card {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      cursor: pointer;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-bdr);
+      border-radius: 18px;
+      padding: 1rem 1rem;
+      transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+    }
+
+    .recipe-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(0, 242, 255, 0.4);
+      box-shadow: 0 0 20px rgba(0, 242, 255, 0.12);
+    }
+
+    .recipe-emoji {
+      font-size: 32px;
+      flex-shrink: 0;
+    }
+
+    .recipe-info {
+      flex: 1;
+    }
+
+    .recipe-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--txt);
+      margin-bottom: 3px;
+    }
+
+    .recipe-meta {
+      font-size: 11px;
+      color: var(--txt-muted);
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .recipe-score {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--cyan);
+      text-shadow: 0 0 10px var(--cyan-glow);
+    }
+
+    /* ══════════════════════════════════════════════
+       COACH TAB — AI Chat
+    ══════════════════════════════════════════════ */
+    #page-coach {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .coach-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(0, 242, 255, 0.2) transparent;
+    }
+
+    .coach-messages::-webkit-scrollbar {
+      width: 3px;
+    }
+
+    .coach-messages::-webkit-scrollbar-thumb {
+      background: rgba(0, 242, 255, 0.2);
+      border-radius: 3px;
+    }
+
+    .coach-intro {
+      text-align: center;
+      padding: 1.5rem 1rem 1rem;
+    }
+
+    .coach-logo {
+      width: 64px;
+      height: 64px;
+      border-radius: 20px;
+      background: rgba(8, 6, 28, 0.9);
+      border: 1.5px solid rgba(0, 242, 255, 0.3);
+      box-shadow: 0 0 30px rgba(0, 242, 255, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin: 0 auto 0.75rem;
+    }
+
+    .coach-name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--cyan);
+      text-shadow: 0 0 20px var(--cyan-glow);
+      margin-bottom: 4px;
+    }
+
+    .coach-sub {
+      font-size: 12px;
+      color: var(--txt-muted);
+      font-weight: 300;
+    }
+
+    .msg {
+      display: flex;
+      gap: 10px;
+      max-width: 88%;
+    }
+
+    .msg.user {
+      align-self: flex-end;
+      flex-direction: row-reverse;
+    }
+
+    .msg-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 10px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      background: var(--cyan-dim);
+      border: 1px solid rgba(0, 242, 255, 0.3);
+    }
+
+    .msg.user .msg-avatar {
+      background: rgba(167, 139, 250, 0.15);
+      border-color: rgba(167, 139, 250, 0.3);
+    }
+
+    .msg-bubble {
+      padding: 0.75rem 1rem;
+      border-radius: 16px;
+      font-size: 13px;
+      line-height: 1.6;
+      font-weight: 400;
+      max-width: 100%;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-bdr);
+      color: var(--txt);
+    }
+
+    .msg.user .msg-bubble {
+      background: var(--purple-dim);
+      border-color: rgba(167, 139, 250, 0.3);
+    }
+
+    .msg-bubble b {
+      color: var(--cyan);
+      font-weight: 600;
+    }
+
+    .typing-indicator {
+      display: flex;
+      gap: 5px;
+      padding: 10px 14px;
+      align-items: center;
+    }
+
+    .typing-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--cyan);
+      animation: typing 1.2s ease-in-out infinite;
+    }
+
+    .typing-dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .typing-dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    .coach-suggestions {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 0.5rem 1.25rem;
+      scrollbar-width: none;
+    }
+
+    .coach-suggestions::-webkit-scrollbar {
+      display: none;
+    }
+
+    .suggestion-chip {
+      white-space: nowrap;
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-bdr);
+      color: var(--txt-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .suggestion-chip:hover {
+      border-color: rgba(0, 242, 255, 0.4);
+      color: var(--cyan);
+      background: var(--cyan-dim);
+    }
+
+    .coach-input-row {
+      padding: 0.75rem 1.25rem 0.5rem;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .coach-input {
+      flex: 1;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-bdr);
+      border-radius: 14px;
+      padding: 0.75rem 1rem;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 13px;
+      color: var(--txt);
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    .coach-input:focus {
+      border-color: rgba(0, 242, 255, 0.5);
+    }
+
+    .coach-input::placeholder {
+      color: rgba(200, 220, 255, 0.3);
+    }
+
+    .coach-send {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, #00D4E8, #0099CC);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s, box-shadow 0.3s;
+      box-shadow: 0 4px 14px rgba(0, 212, 232, 0.35);
+    }
+
+    .coach-send:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(0, 212, 232, 0.5);
+    }
+
+    .coach-send svg {
+      color: #06051A;
+    }
+
+    /* ══════════════════════════════════════════════
+       ACCOUNT TAB
+    ══════════════════════════════════════════════ */
+    .account-hero {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-bdr);
+      border-radius: 24px;
+      margin: 1rem 1.25rem 0;
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .account-avatar {
+      width: 70px;
+      height: 70px;
+      border-radius: 22px;
+      background: rgba(8, 6, 28, 0.9);
+      border: 1.5px solid rgba(0, 242, 255, 0.3);
+      box-shadow: 0 0 25px rgba(0, 242, 255, 0.22);
+      overflow: hidden;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .account-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 10px;
+    }
+
+    .account-name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--txt);
+      margin-bottom: 3px;
+    }
+
+    .account-zone {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 8px;
+      letter-spacing: 0.15em;
+      color: var(--cyan);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .account-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--cyan-dim);
+      border: 1px solid rgba(0, 242, 255, 0.3);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 8px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: var(--cyan);
+      text-transform: uppercase;
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 1rem 1.25rem 0;
+    }
+
+    .stat-box {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-bdr);
+      border-radius: 18px;
+      padding: 1rem 0.75rem;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+
+    .stat-box:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0, 242, 255, 0.4);
+    }
+
+    .stat-val {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 18px;
+      font-weight: 900;
+      color: var(--cyan);
+      text-shadow: 0 0 12px var(--cyan-glow);
+    }
+
+    .stat-lbl {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 7px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--txt-muted);
+      margin-top: 4px;
+    }
+
+    .menu-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 0 1.25rem;
+      margin-top: 1rem;
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-bdr);
+      border-radius: 18px;
+      padding: 1rem 1.25rem;
+      cursor: pointer;
+      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+    }
+
+    .menu-item:hover {
+      transform: translateX(4px);
+      border-color: rgba(0, 242, 255, 0.35);
+      box-shadow: 0 0 16px rgba(0, 242, 255, 0.1);
+    }
+
+    .menu-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .menu-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      background: var(--cyan-dim);
+      border: 1px solid rgba(0, 242, 255, 0.2);
+    }
+
+    .menu-text {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--txt);
+    }
+
+    .menu-sub {
+      font-size: 11px;
+      color: var(--txt-muted);
+      margin-top: 1px;
+    }
+
+    .menu-arrow {
+      color: var(--txt-muted);
+      font-size: 16px;
+    }
+
+    .logout-btn {
+      margin: 1.25rem 1.25rem 0;
+      width: calc(100% - 2.5rem);
+      padding: 1rem;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 80, 80, 0.3);
+      background: rgba(255, 80, 80, 0.08);
+      color: #FF6B6B;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s;
+      backdrop-filter: blur(20px);
+    }
+
+    .logout-btn:hover {
+      background: rgba(255, 80, 80, 0.15);
+      box-shadow: 0 0 20px rgba(255, 80, 80, 0.2);
+    }
+
+    /* ══════════════════════════════════════════════
+       MODAL (See All)
+    ══════════════════════════════════════════════ */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(6, 5, 26, 0.7);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal-sheet {
+      background: #0E0B30;
+      border: 1px solid var(--glass-bdr);
+      border-radius: 28px 28px 0 0;
+      width: 100%;
+      max-width: 480px;
+      max-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      animation: modal-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .modal-handle {
+      width: 40px;
+      height: 4px;
+      border-radius: 4px;
+      background: var(--glass-bdr);
+      margin: 12px auto 0;
+    }
+
+    .modal-header {
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--glass-bdr);
+    }
+
+    .modal-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--txt-label);
+    }
+
+    .modal-close {
+      font-size: 20px;
+      color: var(--txt-muted);
+      cursor: pointer;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .modal-close:hover {
+      background: var(--glass-bg);
+    }
+
+    .modal-body {
+      overflow-y: auto;
+      padding: 1rem 1.5rem 2rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(0, 242, 255, 0.2) transparent;
+    }
+
+    .modal-body::-webkit-scrollbar {
+      width: 3px;
+    }
+
+    .modal-body::-webkit-scrollbar-thumb {
+      background: rgba(0, 242, 255, 0.2);
+      border-radius: 3px;
+    }
+
+    /* ── Toast ── */
+    .toast {
+      position: fixed;
+      bottom: calc(var(--nav-h) + 1rem);
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: rgba(0, 242, 255, 0.13);
+      border: 1px solid rgba(0, 242, 255, 0.4);
+      backdrop-filter: blur(20px);
+      border-radius: 30px;
+      padding: 10px 22px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      color: var(--cyan);
+      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      z-index: 300;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .spacer {
+      height: 1rem;
+    }
+
+    .spacer-lg {
+      height: 1.5rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app-shell">
+
+    <!-- ══ STICKY HEADER ══ -->
+    <header class="top-header">
+      <div class="location-block" onclick="openZoneModal()">
+        <div class="location-eyebrow">
+          <div class="live-dot"></div>
+          Metabolic Zone
+        </div>
+        <div class="location-zone">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+          </svg>
+          <span id="currentZone">Home · Fasting Window</span>
+          <span class="chevron">▾</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="notif-btn" onclick="showToast('🔔 2 new AI recommendations')">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(200,220,255,0.5)" stroke-width="2"
+            stroke-linecap="round">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+          </svg>
+          <div class="notif-dot"></div>
+        </div>
+        <div class="profile-btn" onclick="switchNav('account')">P</div>
+      </div>
+    </header>
+
+    <!-- ══ TAB PAGES ══ -->
+    <div class="tab-pages">
+
+      <!-- ════════════ TODAY TAB ════════════ -->
+      <div class="tab-page active" id="page-today">
+
+        <div class="search-wrap">
+          <div class="search-bar">
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round">
+              <circle cx="11" cy="11" r="8" />
+              <path d="m21 21-4.35-4.35" />
+            </svg>
+            <input type="text" id="searchInput" class="search-input" placeholder="Search for a craving or nutrient..."
+              autocomplete="off" oninput="filterSearch()" />
+            <button class="voice-btn" id="voiceBtn" onclick="startVoice()" title="Voice search">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                <line x1="12" y1="19" x2="12" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                <line x1="8" y1="23" x2="16" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="chips-wrap">
+          <div class="chips-row" id="chipsRow">
+            <div class="chip active" data-filter="all" onclick="filterChip(this)">
+              <div class="chip-dot"></div>All
+            </div>
+            <div class="chip" data-filter="veg" onclick="filterChip(this)">
+              <div class="chip-dot" style="background:#22C55E"></div>Vegetarian
+            </div>
+            <div class="chip" data-filter="fiber" onclick="filterChip(this)">
+              <div class="chip-dot"></div>High Fiber
+            </div>
+            <div class="chip" data-filter="quick" onclick="filterChip(this)">
+              <div class="chip-dot" style="background:var(--purple)"></div>Quick Fix
+            </div>
+            <div class="chip" data-filter="pre" onclick="filterChip(this)">
+              <div class="chip-dot" style="background:var(--amber)"></div>Pre-workout
+            </div>
+          </div>
+        </div>
+
+        <div class="section-hdr">
+          <div class="section-title">Fuel Order Status</div>
+          <div class="see-all" onclick="openModal('tracker')">Details →</div>
+        </div>
+
+        <div class="tracker-card">
+          <div class="tracker-label">🛸 Today's Fuel Journey</div>
+          <div class="tracker-stages">
+            <div class="t-stage done" id="stage1">
+              <div class="t-icon">📋</div><span>Planned</span>
+            </div>
+            <div class="t-connector done"></div>
+            <div class="t-stage active" id="stage2">
+              <div class="t-icon">⚡</div><span>Digesting</span>
+            </div>
+            <div class="t-connector" id="conn2"></div>
+            <div class="t-stage" id="stage3">
+              <div class="t-icon">✅</div><span>Absorbed</span>
+            </div>
+          </div>
+          <div class="tracker-progress">
+            <div class="tracker-bar" style="width:62%;" id="trackerBar"></div>
+          </div>
+          <div class="tracker-meta">
+            <div class="tracker-countdown">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" style="color:var(--cyan)">
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm.5 5v5.25l4.5 2.67-.75 1.23L11 13V7h1.5z" />
+              </svg>
+              <span id="nextFuelTimer">1h 24m</span>
+              <span>to next fuel window</span>
+            </div>
+            <div class="tracker-status" id="trackerStatus">Digestion Phase</div>
+          </div>
+        </div>
+
+        <div class="spacer"></div>
+        <div class="section-hdr">
+          <div class="section-title">Today's Macros</div>
+          <div class="see-all" onclick="openModal('macros')">Expand →</div>
+        </div>
+
+        <div class="vitals-strip">
+          <div class="vital-mini" onclick="openModal('macros')">
+            <span class="vital-mini-val">54%</span>
+            <span class="vital-mini-lbl">Protein</span>
+            <div class="vital-mini-bar">
+              <div class="vital-mini-fill"
+                style="width:54%;background:linear-gradient(90deg,var(--cyan),rgba(0,242,255,0.4));box-shadow:0 0 8px rgba(0,242,255,0.4);">
+              </div>
+            </div>
+          </div>
+          <div class="vital-mini" onclick="openModal('macros')">
+            <span class="vital-mini-val">71%</span>
+            <span class="vital-mini-lbl">Carbs</span>
+            <div class="vital-mini-bar">
+              <div class="vital-mini-fill"
+                style="width:71%;background:linear-gradient(90deg,var(--purple),rgba(167,139,250,0.4));box-shadow:0 0 8px rgba(167,139,250,0.4);">
+              </div>
+            </div>
+          </div>
+          <div class="vital-mini" onclick="openModal('macros')">
+            <span class="vital-mini-val">38%</span>
+            <span class="vital-mini-lbl">Fiber</span>
+            <div class="vital-mini-bar">
+              <div class="vital-mini-fill"
+                style="width:38%;background:linear-gradient(90deg,var(--amber),rgba(245,158,11,0.4));box-shadow:0 0 8px rgba(245,158,11,0.3);">
+              </div>
+            </div>
+          </div>
+          <div class="vital-mini" onclick="openModal('macros')">
+            <span class="vital-mini-val">82%</span>
+            <span class="vital-mini-lbl">Score</span>
+            <div class="vital-mini-bar">
+              <div class="vital-mini-fill"
+                style="width:82%;background:linear-gradient(90deg,var(--green),rgba(34,197,94,0.4));box-shadow:0 0 8px rgba(34,197,94,0.3);">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-hdr" style="margin-top:0.75rem;">
+          <div class="section-title">Recommended Fuels</div>
+          <div class="see-all" onclick="openModal('fuels')">See All →</div>
+        </div>
+        <div class="carousel-wrap">
+          <div class="carousel-row" id="carouselRow">
+            <div class="fuel-card" data-tags="protein" onclick="logFuel('🥚 Egg White Bowl')">
+              <div class="fuel-thumb">🥚</div>
+              <div class="fuel-body">
+                <div class="fuel-name">Egg White Bowl</div>
+                <div class="fuel-sub">31g protein · 180 kcal</div>
+                <span class="fuel-tag"
+                  style="background:var(--cyan-dim);color:var(--cyan);border:1px solid rgba(0,242,255,0.25);">High
+                  Protein</span>
+              </div>
+            </div>
+            <div class="fuel-card" data-tags="pre fiber" onclick="logFuel('🫐 Berry Smoothie')">
+              <div class="fuel-thumb">🫐</div>
+              <div class="fuel-body">
+                <div class="fuel-name">Berry Smoothie</div>
+                <div class="fuel-sub">12g fiber · 210 kcal</div>
+                <span class="fuel-tag"
+                  style="background:var(--amber-dim);color:var(--amber);border:1px solid rgba(245,158,11,0.25);">Pre-workout</span>
+              </div>
+            </div>
+            <div class="fuel-card" data-tags="veg fiber" onclick="logFuel('🥗 Power Salad')">
+              <div class="fuel-thumb">🥗</div>
+              <div class="fuel-body">
+                <div class="fuel-name">Power Salad</div>
+                <div class="fuel-sub">8g fiber · 320 kcal</div>
+                <span class="fuel-tag"
+                  style="background:var(--green-dim);color:var(--green);border:1px solid rgba(34,197,94,0.25);">Vegetarian</span>
+              </div>
+            </div>
+            <div class="fuel-card" data-tags="quick veg" onclick="logFuel('🍌 Banana Oats')">
+              <div class="fuel-thumb">🍌</div>
+              <div class="fuel-body">
+                <div class="fuel-name">Banana Oats</div>
+                <div class="fuel-sub">Fast energy · 290 kcal</div>
+                <span class="fuel-tag"
+                  style="background:rgba(167,139,250,0.12);color:var(--purple);border:1px solid rgba(167,139,250,0.25);">Quick
+                  Fix</span>
+              </div>
+            </div>
+            <div class="fuel-card" data-tags="protein pre" onclick="logFuel('🧀 Paneer Wrap')">
+              <div class="fuel-thumb">🧀</div>
+              <div class="fuel-body">
+                <div class="fuel-name">Paneer Wrap</div>
+                <div class="fuel-sub">22g protein · 380 kcal</div>
+                <span class="fuel-tag"
+                  style="background:var(--cyan-dim);color:var(--cyan);border:1px solid rgba(0,242,255,0.25);">Post-Workout</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-hdr" style="margin-top:0.5rem;">
+          <div class="section-title">Meal Suggestions</div>
+          <div class="see-all" onclick="openModal('meals')">All →</div>
+        </div>
+
+        <div class="meals-list" id="mealsList">
+          <div class="meal-card" style="--delay:-1s;" data-tags="veg fiber">
+            <div class="meal-thumb">🥗</div>
+            <div class="meal-info">
+              <div class="meal-tags"><span class="meal-tag tag-veg">Veg</span><span
+                  class="meal-tag tag-fiber">Fiber+</span></div>
+              <div class="meal-name">Active Meal Strategy</div>
+              <div class="meal-desc">High-performance vegetarian · 92% macro compliance</div>
+              <div class="meal-footer">
+                <div class="score-ring">
+                  <svg class="score-svg" width="34" height="34" viewBox="0 0 34 34">
+                    <circle class="score-track" cx="17" cy="17" r="14" />
+                    <circle class="score-arc" cx="17" cy="17" r="14" stroke="#00F2FF" stroke-dasharray="87.96"
+                      stroke-dashoffset="7.9" filter="drop-shadow(0 0 4px rgba(0,242,255,0.6))" />
+                  </svg>
+                  <div>
+                    <div class="score-val" style="color:var(--cyan)">91</div>
+                    <div class="score-lbl">Score</div>
+                  </div>
+                </div>
+                <button class="log-btn" onclick="logMeal(this,'Active Meal Strategy')">Log</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="meal-card" style="--delay:-3s;" data-tags="pre">
+            <div class="meal-thumb">📈</div>
+            <div class="meal-info">
+              <div class="meal-tags"><span class="meal-tag tag-pre">Pre-workout</span></div>
+              <div class="meal-name">Quarterly Health Boost</div>
+              <div class="meal-desc">Data-driven progress meal · Slow-release carbs</div>
+              <div class="meal-footer">
+                <div class="score-ring">
+                  <svg class="score-svg" width="34" height="34" viewBox="0 0 34 34">
+                    <circle class="score-track" cx="17" cy="17" r="14" />
+                    <circle class="score-arc" cx="17" cy="17" r="14" stroke="#F59E0B" stroke-dasharray="87.96"
+                      stroke-dashoffset="17.6" filter="drop-shadow(0 0 4px rgba(245,158,11,0.5))" />
+                  </svg>
+                  <div>
+                    <div class="score-val" style="color:var(--amber)">80</div>
+                    <div class="score-lbl">Score</div>
+                  </div>
+                </div>
+                <button class="log-btn" onclick="logMeal(this,'Quarterly Health Boost')">Log</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="meal-card" style="--delay:-5s;" data-tags="veg quick">
+            <div class="meal-thumb">🏃‍♀️</div>
+            <div class="meal-info">
+              <div class="meal-tags"><span class="meal-tag tag-veg">Veg</span><span class="meal-tag tag-quick">Quick
+                  Fix</span></div>
+              <div class="meal-name">Elite Runner Fuel</div>
+              <div class="meal-desc">Community favourite · Fast-absorbing energy boost</div>
+              <div class="meal-footer">
+                <div class="score-ring">
+                  <svg class="score-svg" width="34" height="34" viewBox="0 0 34 34">
+                    <circle class="score-track" cx="17" cy="17" r="14" />
+                    <circle class="score-arc" cx="17" cy="17" r="14" stroke="#22C55E" stroke-dasharray="87.96"
+                      stroke-dashoffset="8.8" filter="drop-shadow(0 0 4px rgba(34,197,94,0.5))" />
+                  </svg>
+                  <div>
+                    <div class="score-val" style="color:var(--green)">90</div>
+                    <div class="score-lbl">Score</div>
+                  </div>
+                </div>
+                <button class="log-btn" onclick="logMeal(this,'Elite Runner Fuel')">Log</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="meal-card" style="--delay:-2s;" data-tags="fiber veg">
+            <div class="meal-thumb">🧘</div>
+            <div class="meal-info">
+              <div class="meal-tags"><span class="meal-tag tag-fiber">Fiber+</span><span
+                  class="meal-tag tag-veg">Veg</span></div>
+              <div class="meal-name">Recovery Wrap</div>
+              <div class="meal-desc">Post-workout nutrition · Anti-inflammatory blend</div>
+              <div class="meal-footer">
+                <div class="score-ring">
+                  <svg class="score-svg" width="34" height="34" viewBox="0 0 34 34">
+                    <circle class="score-track" cx="17" cy="17" r="14" />
+                    <circle class="score-arc" cx="17" cy="17" r="14" stroke="#A78BFA" stroke-dasharray="87.96"
+                      stroke-dashoffset="13.2" filter="drop-shadow(0 0 4px rgba(167,139,250,0.5))" />
+                  </svg>
+                  <div>
+                    <div class="score-val" style="color:var(--purple)">85</div>
+                    <div class="score-lbl">Score</div>
+                  </div>
+                </div>
+                <button class="log-btn" onclick="logMeal(this,'Recovery Wrap')">Log</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="spacer-lg"></div>
+      </div><!-- /today -->
+
+      <!-- ════════════ EXPLORE TAB ════════════ -->
+      <div class="tab-page" id="page-explore">
+        <div class="search-wrap">
+          <div class="search-bar">
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round">
+              <circle cx="11" cy="11" r="8" />
+              <path d="m21 21-4.35-4.35" />
+            </svg>
+            <input type="text" class="search-input" placeholder="Search recipes, nutrients, cuisines..."
+              autocomplete="off" />
+            <button class="voice-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                <line x1="12" y1="19" x2="12" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                <line x1="8" y1="23" x2="16" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              </svg></button>
+          </div>
+        </div>
+
+        <div class="section-hdr">
+          <div class="section-title">Browse Categories</div>
+        </div>
+        <div class="explore-categories">
+          <div class="cat-card" onclick="showToast('💪 High Protein recipes loading...')">
+            <div class="cat-emoji">💪</div>
+            <div class="cat-name">High Protein</div>
+            <div class="cat-count">42 RECIPES</div>
+            <span class="cat-tag"
+              style="background:var(--cyan-dim);color:var(--cyan);border:1px solid rgba(0,242,255,0.25);">Trending</span>
+          </div>
+          <div class="cat-card" onclick="showToast('🥦 High Fiber recipes loading...')">
+            <div class="cat-emoji">🥦</div>
+            <div class="cat-name">High Fiber</div>
+            <div class="cat-count">28 RECIPES</div>
+            <span class="cat-tag"
+              style="background:var(--green-dim);color:var(--green);border:1px solid rgba(34,197,94,0.25);">Recommended</span>
+          </div>
+          <div class="cat-card" onclick="showToast('⚡ Quick Fix meals loading...')">
+            <div class="cat-emoji">⚡</div>
+            <div class="cat-name">Quick Fix</div>
+            <div class="cat-count">35 RECIPES</div>
+            <span class="cat-tag"
+              style="background:rgba(167,139,250,0.12);color:var(--purple);border:1px solid rgba(167,139,250,0.25);">Under
+              15min</span>
+          </div>
+          <div class="cat-card" onclick="showToast('🌱 Vegetarian meals loading...')">
+            <div class="cat-emoji">🌱</div>
+            <div class="cat-name">Vegetarian</div>
+            <div class="cat-count">57 RECIPES</div>
+            <span class="cat-tag"
+              style="background:var(--green-dim);color:var(--green);border:1px solid rgba(34,197,94,0.25);">Pure
+              Veg</span>
+          </div>
+          <div class="cat-card" onclick="showToast('🏃 Pre-workout meals loading...')">
+            <div class="cat-emoji">🏃</div>
+            <div class="cat-name">Pre-Workout</div>
+            <div class="cat-count">19 RECIPES</div>
+            <span class="cat-tag"
+              style="background:var(--amber-dim);color:var(--amber);border:1px solid rgba(245,158,11,0.25);">Energy+</span>
+          </div>
+          <div class="cat-card" onclick="showToast('🧘 Recovery meals loading...')">
+            <div class="cat-emoji">🧘</div>
+            <div class="cat-name">Recovery</div>
+            <div class="cat-count">23 RECIPES</div>
+            <span class="cat-tag"
+              style="background:var(--cyan-dim);color:var(--cyan);border:1px solid rgba(0,242,255,0.25);">Anti-Inflam</span>
+          </div>
+        </div>
+
+        <div class="section-hdr" style="margin-top:1rem;">
+          <div class="section-title">Top Rated This Week</div>
+          <div class="see-all" onclick="openModal('meals')">All →</div>
+        </div>
+        <div class="recipe-list">
+          <div class="recipe-card" onclick="showToast('🥗 Bowl of Champions selected')">
+            <div class="recipe-emoji">🥗</div>
+            <div class="recipe-info">
+              <div class="recipe-name">Bowl of Champions</div>
+              <div class="recipe-meta"><span>28g protein</span><span>12g fiber</span><span>420 kcal</span></div>
+            </div>
+            <div class="recipe-score">94</div>
+          </div>
+          <div class="recipe-card" onclick="showToast('🍳 Masala Eggs selected')">
+            <div class="recipe-emoji">🍳</div>
+            <div class="recipe-info">
+              <div class="recipe-name">Masala Eggs</div>
+              <div class="recipe-meta"><span>22g protein</span><span>Quick · 10 min</span></div>
+            </div>
+            <div class="recipe-score" style="color:var(--amber)">88</div>
+          </div>
+          <div class="recipe-card" onclick="showToast('🫐 Berry Power Smoothie selected')">
+            <div class="recipe-emoji">🫐</div>
+            <div class="recipe-info">
+              <div class="recipe-name">Berry Power Smoothie</div>
+              <div class="recipe-meta"><span>15g fiber</span><span>Pre-workout</span></div>
+            </div>
+            <div class="recipe-score" style="color:var(--green)">92</div>
+          </div>
+          <div class="recipe-card" onclick="showToast('🧀 Paneer Tikka Bowl selected')">
+            <div class="recipe-emoji">🧀</div>
+            <div class="recipe-info">
+              <div class="recipe-name">Paneer Tikka Bowl</div>
+              <div class="recipe-meta"><span>30g protein</span><span>Vegetarian</span></div>
+            </div>
+            <div class="recipe-score" style="color:var(--purple)">87</div>
+          </div>
+        </div>
+        <div class="spacer-lg"></div>
+      </div>
+
+      <!-- ════════════ COACH TAB ════════════ -->
+      <div class="tab-page" id="page-coach" style="display:flex;flex-direction:column;overflow:hidden;">
+
+        <!-- Messages area -->
+        <div class="coach-messages" id="coachMessages">
+          <div class="coach-intro">
+            <div class="coach-logo">🤖</div>
+            <div class="coach-name">NutriSense AI</div>
+            <div class="coach-sub">Your personal nutrition intelligence</div>
+          </div>
+
+          <div class="msg">
+            <div class="msg-avatar">🤖</div>
+            <div class="msg-bubble">
+              Hey Pranav! 👋 I've analysed today's data.<br><br>
+              Your <b>fiber is at 38%</b> — the Fuel Orbit engine recommends a high-fiber snack in the next <b>1h
+                24m</b>. Want me to suggest something specific?
+            </div>
+          </div>
+          <div class="msg">
+            <div class="msg-avatar">🤖</div>
+            <div class="msg-bubble">
+              Also, your <b>7-day trend</b> shows late-night meals are dropping your next-day efficiency by ~15%. Try
+              capping meals before 8 PM tonight. 🌙
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick suggestion chips -->
+        <div class="coach-suggestions" id="coachSuggestions">
+          <div class="suggestion-chip" onclick="sendSuggestion(this)">What should I eat now?</div>
+          <div class="suggestion-chip" onclick="sendSuggestion(this)">Show my 7-day report</div>
+          <div class="suggestion-chip" onclick="sendSuggestion(this)">Boost my fiber today</div>
+          <div class="suggestion-chip" onclick="sendSuggestion(this)">Pre-workout meal ideas</div>
+          <div class="suggestion-chip" onclick="sendSuggestion(this)">Why is my score low?</div>
+        </div>
+
+        <!-- Input -->
+        <div class="coach-input-row">
+          <input type="text" id="coachInput" class="coach-input" placeholder="Ask your coach anything..."
+            onkeydown="if(event.key==='Enter') sendMsg()" />
+          <button class="coach-send" onclick="sendMsg()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- ════════════ ACCOUNT TAB ════════════ -->
+      <div class="tab-page" id="page-account">
+
+        <div class="account-hero">
+          <div class="account-avatar">
+            <img src="logo.png" alt="Pranav" />
+          </div>
+          <div>
+            <div class="account-name">Pranav Anshu</div>
+            <div class="account-zone">Home · Fasting Window</div>
+            <div class="account-badge">
+              <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+              </svg>
+              Certified Wellness Partner
+            </div>
+          </div>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-box" onclick="showToast('🔥 14-day streak!')">
+            <div class="stat-val">14</div>
+            <div class="stat-lbl">Day Streak</div>
+          </div>
+          <div class="stat-box" onclick="showToast('📊 Efficiency: 82%')">
+            <div class="stat-val" style="color:var(--green);">82%</div>
+            <div class="stat-lbl">Efficiency</div>
+          </div>
+          <div class="stat-box" onclick="openModal('meals')">
+            <div class="stat-val" style="color:var(--amber);">47</div>
+            <div class="stat-lbl">Meals Logged</div>
+          </div>
+        </div>
+
+        <div class="section-hdr" style="margin-top:1rem;">
+          <div class="section-title">Settings</div>
+        </div>
+        <div class="menu-list">
+          <div class="menu-item" onclick="openModal('goals')">
+            <div class="menu-left">
+              <div class="menu-icon">🎯</div>
+              <div>
+                <div class="menu-text">My Goals</div>
+                <div class="menu-sub">Macros · Calorie targets</div>
+              </div>
+            </div>
+            <span class="menu-arrow">›</span>
+          </div>
+          <div class="menu-item" onclick="openModal('zone')">
+            <div class="menu-left">
+              <div class="menu-icon">🗺️</div>
+              <div>
+                <div class="menu-text">Metabolic Zone</div>
+                <div class="menu-sub">Home · Fasting Window</div>
+              </div>
+            </div>
+            <span class="menu-arrow">›</span>
+          </div>
+          <div class="menu-item" onclick="showToast('🔔 Notifications settings')">
+            <div class="menu-left">
+              <div class="menu-icon">🔔</div>
+              <div>
+                <div class="menu-text">Notifications</div>
+                <div class="menu-sub">Fuel windows · Coach alerts</div>
+              </div>
+            </div>
+            <span class="menu-arrow">›</span>
+          </div>
+          <div class="menu-item" onclick="showToast('🔒 Privacy settings')">
+            <div class="menu-left">
+              <div class="menu-icon">🔒</div>
+              <div>
+                <div class="menu-text">Privacy & Data</div>
+                <div class="menu-sub">Encrypted · Never sold</div>
+              </div>
+            </div>
+            <span class="menu-arrow">›</span>
+          </div>
+          <div class="menu-item" onclick="switchNav('coach')">
+            <div class="menu-left">
+              <div class="menu-icon">🤖</div>
+              <div>
+                <div class="menu-text">AI Coach</div>
+                <div class="menu-sub">Chat · Recommendations</div>
+              </div>
+            </div>
+            <span class="menu-arrow">›</span>
+          </div>
+        </div>
+        <button class="logout-btn" onclick="window.location.href='login.html'">⏏ Sign Out</button>
+        <div class="spacer-lg"></div>
+      </div>
+
+    </div><!-- /tab-pages -->
+
+    <!-- ══ BOTTOM NAV ══ -->
+    <nav class="bottom-nav">
+      <div class="nav-item active" id="nav-today" onclick="switchNav('today')">
+        <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z" />
+        </svg>
+        <span class="nav-label">Today</span>
+      </div>
+      <div class="nav-item" id="nav-explore" onclick="switchNav('explore')">
+        <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round">
+          <circle cx="11" cy="11" r="8" />
+          <path d="m21 21-4.35-4.35" />
+        </svg>
+        <span class="nav-label">Explore</span>
+      </div>
+      <div class="nav-item" id="nav-coach" onclick="switchNav('coach')" style="position:relative;">
+        <div class="nav-badge"></div>
+        <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+          <path
+            d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 12l-3-3.27L8 14v-3l2-3 3 3.27L15 9v3l-2 2z" />
+        </svg>
+        <span class="nav-label">Coach</span>
+      </div>
+      <div class="nav-item" id="nav-account" onclick="switchNav('account')">
+        <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+          <path
+            d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+        </svg>
+        <span class="nav-label">Account</span>
+      </div>
+    </nav>
+
+  </div><!-- /app-shell -->
+
+  <!-- ══════════════ MODALS ══════════════ -->
+
+  <!-- Tracker Details Modal -->
+  <div class="modal-overlay" id="modal-tracker" onclick="closeModal(event,'tracker')">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-header">
+        <div class="modal-title">🛸 Fuel Journey Details</div>
+        <div class="modal-close" onclick="document.getElementById('modal-tracker').classList.remove('open')">✕</div>
+      </div>
+      <div class="modal-body">
+        <div class="recipe-card">
+          <div class="recipe-emoji">📋</div>
+          <div class="recipe-info">
+            <div class="recipe-name">Stage 1: Planned</div>
+            <div class="recipe-meta"><span>✅ Complete</span><span>Goal set at 7:00 AM</span></div>
+          </div>
+          <div class="recipe-score" style="color:var(--green)">✓</div>
+        </div>
+        <div class="recipe-card">
+          <div class="recipe-emoji">⚡</div>
+          <div class="recipe-info">
+            <div class="recipe-name">Stage 2: Digesting</div>
+            <div class="recipe-meta"><span>🔵 Active now</span><span>Nutrients absorbing</span></div>
+          </div>
+          <div class="recipe-score">62%</div>
+        </div>
+        <div class="recipe-card">
+          <div class="recipe-emoji">✅</div>
+          <div class="recipe-info">
+            <div class="recipe-name">Stage 3: Absorbed</div>
+            <div class="recipe-meta"><span>⏳ 1h 24m remaining</span><span>Updates Efficiency Score</span></div>
+          </div>
+          <div class="recipe-score" style="color:var(--txt-muted)">–</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Macros Modal -->
+  <div class="modal-overlay" id="modal-macros" onclick="closeModal(event,'macros')">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-header">
+        <div class="modal-title">📊 Today's Full Macro Report</div>
+        <div class="modal-close" onclick="document.getElementById('modal-macros').classList.remove('open')">✕</div>
+      </div>
+      <div class="modal-body">
+        <div class="recipe-card">
+          <div class="recipe-emoji">🥩</div>
+          <div class="recipe-info">
+            <div class="recipe-name">Protein</div>
+            <div class="recipe-meta"><span>81g consumed</span><span>Target: 150g</span></div>
+          </div>
+          <div class="recipe-score">54%</div>
+        </div>
+        <div class="recipe-card">
+          <div class="recipe-emoji">🌾</div>
+          <div class="recipe-info">
+            <div class="recipe-name">Carbohydrates</div>
+            <div class="recipe-meta"><span>142g consumed</span><span>Target: 200g</span></div>
+          </div>
+          <div class="recipe-score" style="color:var(--purple)">71%</div>
+        </div>
+        <div class="recipe-card">
+          <div class="recipe-emoji">🥑</div>
+          <div class="recipe-info">
+            <div class="recipe-name">Fats</div>
+            <div class="recipe-meta"><span>38g consumed</span><span>Target: 65g</span></div>
+          </div>
+          <div class="recipe-score" style="color:var(--amber)">58%</div>
+        </div>
+        <div class="recipe-card">
+          <div class="recipe-emoji">🥦</div>
+          <div class="recipe-info">
+            <div class="recipe-name">Fiber</div>
+            <div class="recipe-meta"><span>11g consumed</span><span>Target: 30g — Needs boost!</span></div>
+          </div>
+          <div class="recipe-score" style="color:var(--amber)">38%</div>
+        </div>
+        <div class="recipe-card">
+          <div class="recipe-emoji">🔥</div>
+          <div class="recipe-info">
+            <div class="recipe-name">Calories</div>
+            <div class="recipe-meta"><span>1,140 consumed</span><span>Target: 2,000 kcal</span></div>
+          </div>
+          <div class="recipe-score" style="color:var(--green)">57%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fuels Modal -->
+  <div class="modal-overlay" id="modal-fuels" onclick="closeModal(event,'fuels')">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-header">
+        <div class="modal-title">⚡ All Recommended Fuels</div>
+        <div class="modal-close" onclick="document.getElementById('modal-fuels').classList.remove('open')">✕</div>
+      </div>
+      <div class="modal-body">
+        <div class="recipe-card" onclick="logFuel('🥚 Egg White Bowl')">
+          <div class="recipe-emoji">🥚</div>
+          <div class="recipe-info">
+            <div class="recipe-name">Egg White Bowl</div>
+            <div class="recipe-meta"><span>31g protein</span><span>180 kcal</span><span>High Protein</span></div>
+          </div>
+          <div class="recipe-score">94</div>
+        </div>
+        <div class="recipe-card" onclick="logFuel('🫐 Berry Smoothie')">
+          <div class="recipe-emoji">🫐</div>
+          <div class="recipe-info">
+            <div class="recipe-name">Berry Smoothie</div>
+            <div class="recipe-meta"><span>12g fiber</span><span>210 kcal</span><span>Pre-workout</span></div>
+          </div>
+          <div class="recipe-score" style="color:var(--amber)">88</div>
+        </div>
+        <div class="recipe-card" onclick="logFuel('🥗 Power Salad')">
+          <div class="recipe-emoji">🥗</div>
+          <div class="recipe-info">
+            <div class="recipe-name">Power Salad</div>
+            <div class="recipe-meta"><span>8g fiber</span><span>320 kcal</span><span>Vegetarian</span></div>
+          </div>
+          <div class="recipe-score" style="color:var(--green)">91</div>
+        </div>
+        <div class="recipe-card" onclick="logFuel('🍌 Banana Oats')">
+          <div class="recipe-emoji">🍌</div>
+          <div class="recipe-info">
+            <div class="recipe-name">Banana Oats</div>
+            <div class="recipe-meta"><span>Fast energy</span><span>290 kcal</span><span>Quick Fix</span></div>
+          </div>
+          <div class="recipe-score" style="color:var(--purple)">85</div>
+        </div>
+        <div class="recipe-card" onclick="logFuel('🧀 Paneer Wrap')">
+          <div class="recipe-emoji">🧀</div>
+          <div class="recipe-info">
+            <div class="recipe-name">Paneer Wrap</div>
+            <div class="recipe-meta"><span>22g protein</span><span>380 kcal</span><span>Post-Workout</span></div>
+          </div>
+          <div class="recipe-score">87</div>
+        </div>
+        <div class="recipe-card" onclick="logFuel('🥜 Almond Butter Toast')">
+          <div class="recipe-emoji">🥜</div>
+          <div class="recipe-info">
+            <div class="recipe-name">Almond Butter Toast</div>
+            <div class="recipe-meta"><span>8g protein</span><span>6g fiber</span><span>220 kcal</span></div>
+          </div>
+          <div class="recipe-score" style="color:var(--green)">89</div>
+        </div>
+        <div class="recipe-card" onclick="logFuel('🍵 Green Protein Smoothie')">
+          <div class="recipe-emoji">🍵</div>
+          <div class="recipe-info">
+            <div class="recipe-name">Green Protein Smoothie</div>
+            <div class="recipe-meta"><span>25g protein</span><span>10g fiber</span><span>280 kcal</span></div>
+          </div>
+          <div class="recipe-score" style="color:var(--cyan)">93</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Meals Modal -->
+  <div class="modal-overlay" id="modal-meals" onclick="closeModal(event,'meals')">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-header">
+        <div class="modal-title">🍽️ All Meal Suggestions</div>
+        <div class="modal-close" onclick="document.getElementById('modal-meals').classList.remove('open')">✕</div>
+      </div>
+      <div class="modal-body">
+        <div class="recipe-card" onclick="logFuel('🥗 Active Meal Strategy')">
+          <div class="recipe-emoji">🥗</div>
+          <div class="recipe-info">
+            <div class="recipe-name">Active Meal Strategy</div>
+            <div class="recipe-meta"><span>Veg · Fiber+</span><span>92% compliance</span></div>
+          </div>
+          <div class="recipe-score">91</div>
+        </div>
+        <div class="recipe-card" onclick="logFuel('📈 Quarterly Health Boost')">
+          <div class="recipe-emoji">📈</div>
+          <div class="recipe-info">
+            <div class="recipe-name">Quarterly Health Boost</div>
+            <div class="recipe-meta"><span>Pre-workout</span><span>Slow carbs</span></div>
+          </div>
+          <div class="recipe-score" style="color:var(--amber)">80</div>
+        </div>
+        <div class="recipe-card" onclick="logFuel('🏃 Elite Runner Fuel')">
+          <div class="recipe-emoji">🏃‍♀️</div>
+          <div class="recipe-info">
+            <div class="recipe-name">Elite Runner Fuel</div>
+            <div class="recipe-meta"><span>Veg · Quick Fix</span><span>Community fav</span></div>
+          </div>
+          <div class="recipe-score" style="color:var(--green)">90</div>
+        </div>
+        <div class="recipe-card" onclick="logFuel('🧘 Recovery Wrap')">
+          <div class="recipe-emoji">🧘</div>
+          <div class="recipe-info">
+            <div class="recipe-name">Recovery Wrap</div>
+            <div class="recipe-meta"><span>Fiber+ · Veg</span><span>Anti-inflammatory</span></div>
+          </div>
+          <div class="recipe-score" style="color:var(--purple)">85</div>
+        </div>
+        <div class="recipe-card" onclick="logFuel('🥜 Protein Power Bowl')">
+          <div class="recipe-emoji">🥜</div>
+          <div class="recipe-info">
+            <div class="recipe-name">Protein Power Bowl</div>
+            <div class="recipe-meta"><span>High Protein</span><span>35g protein · 480 kcal</span></div>
+          </div>
+          <div class="recipe-score">88</div>
+        </div>
+        <div class="recipe-card" onclick="logFuel('🍛 Dal Khichdi')">
+          <div class="recipe-emoji">🍛</div>
+          <div class="recipe-info">
+            <div class="recipe-name">Dal Khichdi</div>
+            <div class="recipe-meta"><span>Comfort · Veg</span><span>18g protein · 380 kcal</span></div>
+          </div>
+          <div class="recipe-score" style="color:var(--green)">86</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Goals Modal -->
+  <div class="modal-overlay" id="modal-goals" onclick="closeModal(event,'goals')">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-header">
+        <div class="modal-title">🎯 My Macro Goals</div>
+        <div class="modal-close" onclick="document.getElementById('modal-goals').classList.remove('open')">✕</div>
+      </div>
+      <div class="modal-body">
+        <div class="recipe-card">
+          <div class="recipe-emoji">🔥</div>
+          <div class="recipe-info">
+            <div class="recipe-name">Daily Calories</div>
+            <div class="recipe-meta"><span>Target: 2,000 kcal</span></div>
+          </div>
+          <div class="recipe-score">2000</div>
+        </div>
+        <div class="recipe-card">
+          <div class="recipe-emoji">🥩</div>
+          <div class="recipe-info">
+            <div class="recipe-name">Protein</div>
+            <div class="recipe-meta"><span>Target: 150g/day</span></div>
+          </div>
+          <div class="recipe-score">150g</div>
+        </div>
+        <div class="recipe-card">
+          <div class="recipe-emoji">🌾</div>
+          <div class="recipe-info">
+            <div class="recipe-name">Carbohydrates</div>
+            <div class="recipe-meta"><span>Target: 200g/day</span></div>
+          </div>
+          <div class="recipe-score" style="color:var(--purple)">200g</div>
+        </div>
+        <div class="recipe-card">
+          <div class="recipe-emoji">🥑</div>
+          <div class="recipe-info">
+            <div class="recipe-name">Healthy Fats</div>
+            <div class="recipe-meta"><span>Target: 65g/day</span></div>
+          </div>
+          <div class="recipe-score" style="color:var(--amber)">65g</div>
+        </div>
+        <div class="recipe-card">
+          <div class="recipe-emoji">🥦</div>
+          <div class="recipe-info">
+            <div class="recipe-name">Fiber</div>
+            <div class="recipe-meta"><span>Target: 30g/day</span></div>
+          </div>
+          <div class="recipe-score" style="color:var(--green)">30g</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Zone Modal -->
+  <div class="modal-overlay" id="modal-zone" onclick="closeModal(event,'zone')">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-header">
+        <div class="modal-title">📍 Select Metabolic Zone</div>
+        <div class="modal-close" onclick="document.getElementById('modal-zone').classList.remove('open')">✕</div>
+      </div>
+      <div class="modal-body" id="zoneList">
+        <div class="recipe-card" onclick="setZone('Home · Fasting Window','zone')">
+          <div class="recipe-emoji">🏠</div>
+          <div class="recipe-info">
+            <div class="recipe-name">Home · Fasting Window</div>
+            <div class="recipe-meta"><span>Low activity · Ketosis mode</span></div>
+          </div>
+          <div class="recipe-score" id="zone0">✓</div>
+        </div>
+        <div class="recipe-card" onclick="setZone('Gym · Anabolic Zone','zone')">
+          <div class="recipe-emoji">💪</div>
+          <div class="recipe-info">
+            <div class="recipe-name">Gym · Anabolic Zone</div>
+            <div class="recipe-meta"><span>High protein priority · Build mode</span></div>
+          </div>
+          <div class="recipe-score" id="zone1" style="color:var(--txt-muted)">–</div>
+        </div>
+        <div class="recipe-card" onclick="setZone('Office · Focus Zone','zone')">
+          <div class="recipe-emoji">💼</div>
+          <div class="recipe-info">
+            <div class="recipe-name">Office · Focus Zone</div>
+            <div class="recipe-meta"><span>Brain fuel · Low-glycemic</span></div>
+          </div>
+          <div class="recipe-score" id="zone2" style="color:var(--txt-muted)">–</div>
+        </div>
+        <div class="recipe-card" onclick="setZone('Recovery · Rest Zone','zone')">
+          <div class="recipe-emoji">🧘</div>
+          <div class="recipe-info">
+            <div class="recipe-name">Recovery · Rest Zone</div>
+            <div class="recipe-meta"><span>Anti-inflammatory · Repair mode</span></div>
+          </div>
+          <div class="recipe-score" id="zone3" style="color:var(--txt-muted)">–</div>
+        </div>
+        <div class="recipe-card" onclick="setZone('Travel · Adaptive Zone','zone')">
+          <div class="recipe-emoji">✈️</div>
+          <div class="recipe-info">
+            <div class="recipe-name">Travel · Adaptive Zone</div>
+            <div class="recipe-meta"><span>Flexible · Hydration priority</span></div>
+          </div>
+          <div class="recipe-score" id="zone4" style="color:var(--txt-muted)">–</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    /* ══ NAV SWITCHING ══ */
+    function switchNav(tab) {
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
+      document.getElementById('nav-' + tab).classList.add('active');
+      document.getElementById('page-' + tab).classList.add('active');
+      // Remove coach badge when visiting coach
+      if (tab === 'coach') document.querySelector('#nav-coach .nav-badge')?.remove();
+    }
+
+    /* ══ FILTER CHIPS ══ */
+    let activeFilter = 'all';
+    function filterChip(el) {
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      activeFilter = el.dataset.filter;
+      applyFilter();
+    }
+
+    function applyFilter() {
+      const cards = document.querySelectorAll('#mealsList .meal-card');
+      let visible = 0;
+      cards.forEach(card => {
+        const tags = card.dataset.tags || '';
+        const show = activeFilter === 'all' || tags.includes(activeFilter);
+        card.classList.toggle('hidden', !show);
+        if (show) visible++;
+      });
+      showToast(activeFilter === 'all' ? '✨ Showing all meals' : `🔍 ${visible} meal${visible !== 1 ? 's' : ''} match "${activeFilter}"`);
+    }
+
+    /* ══ SEARCH FILTER ══ */
+    function filterSearch() {
+      const q = document.getElementById('searchInput').value.toLowerCase().trim();
+      document.querySelectorAll('#mealsList .meal-card').forEach(card => {
+        const name = card.querySelector('.meal-name')?.textContent.toLowerCase() || '';
+        const desc = card.querySelector('.meal-desc')?.textContent.toLowerCase() || '';
+        card.classList.toggle('hidden', q !== '' && !name.includes(q) && !desc.includes(q));
+      });
+    }
+
+    /* ══ VOICE SEARCH ══ */
+    function startVoice() {
+      if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+        showToast('🎙 Voice search not supported in this browser'); return;
+      }
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const rec = new SR(); rec.lang = 'en-IN';
+      document.getElementById('voiceBtn').style.background = 'rgba(242,0,100,0.2)';
+      showToast('🎙 Listening...');
+      rec.start();
+      rec.onresult = e => { document.getElementById('searchInput').value = e.results[0][0].transcript; filterSearch(); };
+      rec.onend = () => { document.getElementById('voiceBtn').style.background = ''; };
+    }
+
+    /* ══ LOG MEAL ══ */
+    function logMeal(btn, name) {
+      if (btn.classList.contains('logged')) { showToast('✓ Already logged!'); return; }
+      btn.classList.add('logged'); btn.textContent = '✓ Logged';
+      showToast('✅ ' + name + ' logged! Efficiency score updated.');
+      setTimeout(() => {
+        document.getElementById('trackerBar').style.width = '80%';
+        document.getElementById('trackerStatus').textContent = 'Nutrients Absorbing';
+        document.getElementById('stage2').classList.remove('active');
+        document.getElementById('conn2').classList.add('done');
+        document.getElementById('stage3').classList.add('done');
+      }, 700);
+    }
+
+    function logFuel(name) {
+      showToast('✅ ' + name + ' added to log!');
+      document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('open'));
+    }
+
+    /* ══ LIVE COUNTDOWN ══ */
+    (function () {
+      let mins = 84, secs = 0;
+      const el = document.getElementById('nextFuelTimer');
+      setInterval(() => {
+        if (secs === 0) { if (mins === 0) return; mins--; secs = 59; } else secs--;
+        el.textContent = mins + 'h ' + String(secs).padStart(2, '0') + 'm';
+      }, 1000);
+    })();
+
+    /* ══ MODALS ══ */
+    function openModal(id) { document.getElementById('modal-' + id)?.classList.add('open'); }
+    function closeModal(e, id) {
+      if (e.target === document.getElementById('modal-' + id)) document.getElementById('modal-' + id).classList.remove('open');
+    }
+    function openZoneModal() { openModal('zone'); }
+
+    /* ══ ZONE SELECTOR ══ */
+    let currentZoneIdx = 0;
+    function setZone(zone, modalId) {
+      document.getElementById('currentZone').textContent = zone;
+      document.querySelectorAll('#zoneList .recipe-card .recipe-score').forEach((el, i) => {
+        el.textContent = i === [...document.getElementById('zoneList').querySelectorAll('.recipe-card')].findIndex(c => c.querySelector('.recipe-name').textContent === zone) ? '✓' : '–';
+        el.style.color = el.textContent === '✓' ? 'var(--cyan)' : 'var(--txt-muted)';
+      });
+      document.getElementById('modal-zone').classList.remove('open');
+      showToast('📍 Zone: ' + zone);
+    }
+
+    /* ══ AI COACH CHAT ══ */
+    const aiReplies = {
+      'What should I eat now?': 'Based on your current fiber gap (38% of daily goal), I recommend a **Berry Smoothie** or **Power Salad** right now. Both fit your remaining 860 kcal budget. 🥗',
+      'Show my 7-day report': 'Your 7-day average compliance is **71%**. Late-night meals on 3 days dropped your efficiency by ~15%. Your best day was Thursday at 89%! 📈',
+      'Boost my fiber today': 'To hit your 30g fiber target, add: **1 cup edamame** (8g) + **Power Salad** (8g) + **Berry Smoothie** (12g) = 28g more. Almost there! 🥦',
+      'Pre-workout meal ideas': 'Best options for you right now:\n1. 🫐 Berry Smoothie — fast energy + antioxidants\n2. 🍌 Banana Oats — slow-release carbs\n3. 🧀 Paneer Wrap — protein hit pre-lift',
+      'Why is my score low?': 'Your efficiency score is **82%** — actually quite good! Main drag: fiber is only at 38%. Closing that gap would push you to 90%+. I\'ve triggered the Fuel Orbit recommendation. 🎯',
+    };
+
+    function sendSuggestion(chip) {
+      const text = chip.textContent;
+      appendMsg('user', text);
+      chip.remove();
+      setTimeout(() => showTyping(), 400);
+      setTimeout(() => {
+        removeTyping();
+        appendMsg('ai', aiReplies[text] || 'Great question! Let me analyse your data... 🔍 Based on your current macros, I\'d recommend increasing fiber intake first.');
+      }, 1800);
+    }
+
+    function sendMsg() {
+      const input = document.getElementById('coachInput');
+      const text = input.value.trim();
+      if (!text) return;
+      appendMsg('user', text);
+      input.value = '';
+      setTimeout(() => showTyping(), 400);
+      setTimeout(() => {
+        removeTyping();
+        const reply = aiReplies[text] || 'Analysing your nutrition data... 🔍 Based on today\'s logs, your **fiber intake** needs the most attention. A quick high-fiber snack in the next hour would significantly boost your daily efficiency score.';
+        appendMsg('ai', reply);
+      }, 1800);
+    }
+
+    function appendMsg(type, text) {
+      const wrap = document.getElementById('coachMessages');
+      const div = document.createElement('div');
+      div.className = 'msg' + (type === 'user' ? ' user' : '');
+      div.innerHTML = `<div class="msg-avatar">${type === 'user' ? '👤' : '🤖'}</div><div class="msg-bubble">${text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>')}</div>`;
+      wrap.appendChild(div);
+      wrap.scrollTop = wrap.scrollHeight;
+    }
+
+    function showTyping() {
+      const wrap = document.getElementById('coachMessages');
+      const div = document.createElement('div');
+      div.className = 'msg'; div.id = 'typingMsg';
+      div.innerHTML = `<div class="msg-avatar">🤖</div><div class="msg-bubble"><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`;
+      wrap.appendChild(div); wrap.scrollTop = wrap.scrollHeight;
+    }
+    function removeTyping() { document.getElementById('typingMsg')?.remove(); }
+
+    /* ══ TOAST ══ */
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg; t.classList.add('show');
+      clearTimeout(t._timer);
+      t._timer = setTimeout(() => t.classList.remove('show'), 2500);
+    }
+  </script>
+
+</body>
+
+</html>
